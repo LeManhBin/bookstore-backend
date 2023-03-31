@@ -1,19 +1,9 @@
-package com.bookstore.BookStoreSpringBoot.entities;
+package com.bookstore.BookStoreSpringBoot.entity;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 
-import com.bookstore.entities.StoreEntity;
-import com.bookstore.entities.UserEntity;
 @Entity
 @Table(name="Order")
 public class OrderEntity {
@@ -21,10 +11,10 @@ public class OrderEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@OneToOne
-	@JoinColumn(name="userid", referencedColumnName = "id")
+	@JoinColumn(name="user_id", referencedColumnName = "id")
 	private UserEntity userEntity;
 	@OneToOne
-	@JoinColumn(name="storeid", referencedColumnName = "id")
+	@JoinColumn(name="store_id", referencedColumnName = "id")
 	private StoreEntity storeEntity;
 	@Column
 	private String name;

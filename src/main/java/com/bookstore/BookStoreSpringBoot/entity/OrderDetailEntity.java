@@ -1,12 +1,5 @@
-package com.bookstore.BookStoreSpringBoot.entities;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+package com.bookstore.BookStoreSpringBoot.entity;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="OrderDetail")
@@ -15,17 +8,17 @@ public class OrderDetailEntity {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	@ManyToOne
-	@JoinColumn(referencedColumnName = "id", name="orderid")
+	@JoinColumn(referencedColumnName = "id", name="order_id")
 	private OrderEntity orderEntity;
 	@ManyToOne
-	@JoinColumn(referencedColumnName = "id", name="bookid")
+	@JoinColumn(referencedColumnName = "id", name="book_id")
 	private BookEntity bookEntity;
 	@Column
 	private int amount;
 	@Column
 	private int price;
 	@Column
-	private int percent;
+	private int discount;
 	
 	public long getId() {
 		return id;
@@ -58,11 +51,11 @@ public class OrderDetailEntity {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public int getPercent() {
-		return percent;
+	public int getDiscount() {
+		return discount;
 	}
-	public void setPercent(int percent) {
-		this.percent = percent;
+	public void setDiscount(int discount) {
+		this.discount = discount;
 	}
 	public OrderDetailEntity() {
 		super();

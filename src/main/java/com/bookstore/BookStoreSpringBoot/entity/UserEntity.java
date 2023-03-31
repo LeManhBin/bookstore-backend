@@ -1,24 +1,16 @@
-package com.bookstore.BookStoreSpringBoot.entities;
+package com.bookstore.BookStoreSpringBoot.entity;
 
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 @Entity
 @Table(name="users")
 public class UserEntity {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private long id;
-	@Column
-	private String name;
+	@Column(name="full_name")
+	private String fullName;
 	@Column
 	private String email;
 	@Column
@@ -29,10 +21,10 @@ public class UserEntity {
 	private String gender;
 	@Column
 	private String address;
-	@Column
-	private Date createDay;
-	@Column
-	private Date updateDay;
+	@Column(name="create_date")
+	private Date createDate;
+	@Column(name="update_date")
+	private Date updateDate;
 	@Column
 	private String avatar;
 	@Column
@@ -47,11 +39,11 @@ public class UserEntity {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getFullName() {
+		return fullName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 	public String getEmail() {
 		return email;
@@ -83,17 +75,17 @@ public class UserEntity {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Date getCreateDay() {
-		return createDay;
+	public Date getCreateDate() {
+		return createDate;
 	}
-	public void setCreateDay(Date createDay) {
-		this.createDay = createDay;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
-	public Date getUpdateDay() {
-		return updateDay;
+	public Date getUpdateDate() {
+		return updateDate;
 	}
-	public void setUpdateDay(Date updateDay) {
-		this.updateDay = updateDay;
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
 	public String getAvatar() {
 		return avatar;
@@ -117,38 +109,20 @@ public class UserEntity {
 		super();
 	}
 	
-	public UserEntity(long id, String name, String email, String phone, String password, String gender, String address,
-			Date createDay, Date updateDay, String avatar, int role, int status) {
+	public UserEntity(long id, String fullName, String email, String phone, String password, String gender, String address,
+			Date createDate, Date updateDate, String avatar, int role, int status) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.fullName = fullName;
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
 		this.gender = gender;
 		this.address = address;
-		this.createDay = createDay;
-		this.updateDay = updateDay;
+		this.createDate = createDate;
+		this.updateDate = updateDate;
 		this.avatar = avatar;
 		this.role = role;
 		this.status = status;
 	}
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password=" + password
-				+ ", gender=" + gender + ", address=" + address + ", createDay=" + createDay + ", updateDay="
-				+ updateDay + ", avatar=" + avatar + ", role=" + role + ", status=" + status + "]";
-	}
-	public UserEntity(String name, String email, String phone, String password, String gender, String address,
-			int role) {
-		super();
-		this.name = name;
-		this.email = email;
-		this.phone = phone;
-		this.password = password;
-		this.gender = gender;
-		this.address = address;
-		this.role = role;
-	}
-	
 }

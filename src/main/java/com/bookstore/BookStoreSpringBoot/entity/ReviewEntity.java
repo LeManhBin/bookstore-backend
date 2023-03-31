@@ -1,14 +1,7 @@
-package com.bookstore.BookStoreSpringBoot.entities;
+package com.bookstore.BookStoreSpringBoot.entity;
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 @Entity
 @Table(name="Review")
 public class ReviewEntity {
@@ -25,7 +18,7 @@ public class ReviewEntity {
 	private int star;
 	@Column
 	private String comment;
-	@Column
+	@Column(name="create_date")
 	private Date createDate;
 	
 	public ReviewEntity() {

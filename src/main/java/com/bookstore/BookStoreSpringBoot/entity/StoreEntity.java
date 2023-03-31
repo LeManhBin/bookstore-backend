@@ -1,16 +1,8 @@
-package com.bookstore.BookStoreSpringBoot.entities;
+package com.bookstore.BookStoreSpringBoot.entity;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 @Entity
 @Table(name="store")
 public class StoreEntity {
@@ -28,13 +20,13 @@ public class StoreEntity {
 	private String email;
 	@Column
 	private String avatar;
-	@Column
+	@Column(name="cover_image")
 	private String coverImage;
 	@Column
 	private String address;
-	@Column
+	@Column(name="create_date")
 	private Date createDate;
-	@Column
+	@Column(name="update_date")
 	private Date updateDate;
 	@Column
 	private int status;

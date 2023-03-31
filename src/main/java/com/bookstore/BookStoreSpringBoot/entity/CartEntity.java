@@ -1,12 +1,6 @@
-package com.bookstore.BookStoreSpringBoot.entities;
+package com.bookstore.BookStoreSpringBoot.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 @Entity
 @Table(name="cart")
 public class CartEntity {
@@ -14,10 +8,10 @@ public class CartEntity {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	@ManyToOne
-	@JoinColumn(name="userid", referencedColumnName = "id")
+	@JoinColumn(name="user_id", referencedColumnName = "id")
 	private UserEntity userEntity;
 	@ManyToOne
-	@JoinColumn(name="bookid", referencedColumnName = "id")
+	@JoinColumn(name="book_id", referencedColumnName = "id")
 	private BookEntity bookEntity;
 	private int amount;
 	public CartEntity() {

@@ -1,13 +1,8 @@
-package com.bookstore.BookStoreSpringBoot.entities;
+package com.bookstore.BookStoreSpringBoot.entity;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 @Entity
 @Table(name="contact")
 public class ContactEntity {
@@ -22,7 +17,7 @@ public class ContactEntity {
 	private String subject;
 	@Column
 	private String content;
-	@Column
+	@Column(name="create_date")
 	private Date createDate;
 	@Column
 	private int status;

@@ -1,37 +1,21 @@
-package com.bookstore.BookStoreSpringBoot.entities;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+package com.bookstore.BookStoreSpringBoot.object;
 
-
-@Entity
-@Table(name="servicepack")
-public class ServicePackEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ServicePack {
 	private long id;
-	@Column
 	private String name;
-	@Column
-	private double price; 
-	@Column
+	private double price;
 	private int quantityProduct;
-	@Column
 	private int expirationDate; 
-	@Column
-	private String thumbnail;	
-	@Column
+	private String thumbnail;
 	private String description;	
-	@Column
 	private int status;
-	public ServicePackEntity() {
+	
+
+	public ServicePack() {
 		super();
 	}
 	
-	public ServicePackEntity(long id, String name, double price, int quantityProduct, int expirationDate, String thumbnail, String description, int status) {
+	public ServicePack(long id, String name, double price, int quantityProduct, int expirationDate, String thumbnail, String description, int status) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -91,13 +75,14 @@ public class ServicePackEntity {
 	public int getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
-		this.status = status;
+	public void setStatus(int isActive) {
+		this.status = isActive;
 	}
 
 	@Override
 	public String toString() {
 		return "Service [id=" + id + ", name=" + name + ", price=" + price + ", quantityProduct=" + quantityProduct
-				+ ", expirationDate=" + expirationDate + ", description=" + description + ", status=" + status + "]";
+				+ ", expiry=" + expirationDate + ", description=" + description + ", status=" + status + "]";
 	}
+	
 }

@@ -1,83 +1,36 @@
-package com.bookstore.BookStoreSpringBoot.entities;
+package com.bookstore.BookStoreSpringBoot.object;
 
 import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="book")
-public class BookEntity {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+public class Book {
 	private long id;
-	@Column
 	private String name;
-	@Column
 	private String image;
-	@Column
 	private String author;
-	@ManyToOne
-	@JoinColumn(name="categoryId", referencedColumnName = "id")
-	private CategoryEntity categoryEntity;
-	@Column
+	private long categoryId;
 	private String publishing;
-	@ManyToOne
-	@JoinColumn(name="promotionId", referencedColumnName = "id")
-	private PromotionEntity promotionEntity;
-	@Column
 	private int publishingYear;
-	@ManyToOne
-	@JoinColumn(name="storeId", referencedColumnName = "id")
-	private StoreEntity storeEntity;
-	@Column
+	private int promotionId;
+	private long storeId;
 	private int pageNumber;
-	@Column
 	private int length;
-	@Column
 	private int width;
-	@Column
 	private int height;
-	@Column
 	private float weight;
-	@Column
 	private int quantity;
-	@Column
 	private float price;
-	@Column
 	private int quantitySold;
-	@Column
-	private Date createDate;
-	@Column
-	private Date updateDate;
-	@Column
-	private int status;
-	@Column
 	private String description;
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-        name = "book_tag",
-        joinColumns = { @JoinColumn(name = "bookid") },
-        inverseJoinColumns = { @JoinColumn(name = "tagid") }
-    )
-    private Set<TagEntity> tags = new HashSet<TagEntity>();
+	private Date createDate;
+	private Date updateDate;
+	
+	private int status;
+	public Book() {
+		super();
+	}
 	public long getId() {
 		return id;
 	}
-	@OneToMany(mappedBy = "bookEntity")
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -93,17 +46,15 @@ public class BookEntity {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	
+	public long getCategoryId() {
+		return categoryId;
+	}
 	public String getAuthor() {
 		return author;
 	}
 	public void setAuthor(String author) {
 		this.author = author;
-	}
-	public CategoryEntity getCategoryEntity() {
-		return categoryEntity;
-	}
-	public void setCategoryEntity(CategoryEntity categoryEntity) {
-		this.categoryEntity = categoryEntity;
 	}
 	public String getPublishing() {
 		return publishing;
@@ -111,11 +62,15 @@ public class BookEntity {
 	public void setPublishing(String publishing) {
 		this.publishing = publishing;
 	}
-	public PromotionEntity getPromotionEntity() {
-		return promotionEntity;
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
 	}
-	public void setPromotionEntity(PromotionEntity promotionEntity) {
-		this.promotionEntity = promotionEntity;
+	
+	public int getPromotionId() {
+		return promotionId;
+	}
+	public void setPromotionId(int promotionId) {
+		this.promotionId = promotionId;
 	}
 	public int getPublishingYear() {
 		return publishingYear;
@@ -123,11 +78,11 @@ public class BookEntity {
 	public void setPublishingYear(int publishingYear) {
 		this.publishingYear = publishingYear;
 	}
-	public StoreEntity getStoreEntity() {
-		return storeEntity;
+	public long getStoreId() {
+		return storeId;
 	}
-	public void setStoreEntity(StoreEntity storeEntity) {
-		this.storeEntity = storeEntity;
+	public void setStoreId(long storeId) {
+		this.storeId = storeId;
 	}
 	public int getPageNumber() {
 		return pageNumber;
@@ -195,21 +150,21 @@ public class BookEntity {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public Set<TagEntity> getTags() {
-		return tags;
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ", name=" + name + ", image=" + image + ", authorId=" + author + ", categoryId="
+				+ categoryId + ", publishingId=" + publishing + ", publishingYear=" + publishingYear
+				+ ", promotionId=" + promotionId + ", storeId=" + storeId + ", pageNumber=" + pageNumber + ", length="
+				+ length + ", width=" + width + ", height=" + height + ", weight=" + weight + ", quantity=" + quantity
+				+ ", price=" + price + ", quantitySold=" + quantitySold + ", description=" + description
+				+ ", createDate=" + createDate + ", updateDate=" + updateDate + ", status=" + status + "]";
 	}
-	public void setTags(Set<TagEntity> tags) {
-		this.tags = tags;
-	}
-	public BookEntity() {
-		super();
-	}
-	
+
 }
