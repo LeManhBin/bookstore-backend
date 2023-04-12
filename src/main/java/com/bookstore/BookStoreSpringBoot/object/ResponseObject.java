@@ -1,23 +1,23 @@
 package com.bookstore.BookStoreSpringBoot.object;
 
 public class ResponseObject {
-	private String status;
+	private int status;
 	private String message;
 	private Object data;
 	
 	public ResponseObject() {
 		super();
 	}
-	public ResponseObject(String status, String message, Object data) {
+	public ResponseObject(int status, String message, Object data) {
 		super();
 		this.status = status;
 		this.message = message;
 		this.data = data;
 	}
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 	public String getMessage() {

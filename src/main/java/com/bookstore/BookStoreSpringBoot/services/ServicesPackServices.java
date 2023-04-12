@@ -1,49 +1,79 @@
 package com.bookstore.BookStoreSpringBoot.services;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.bookstore.BookStoreSpringBoot.convert.ServicePackAndServicePackEntity;
+import com.bookstore.BookStoreSpringBoot.dto.response.ServicePackResponseDTO;
 import com.bookstore.BookStoreSpringBoot.entity.ServicePackEntity;
-import com.bookstore.BookStoreSpringBoot.object.ServicePack;
+import com.bookstore.BookStoreSpringBoot.mapper.ServicePackMapper;
 import com.bookstore.BookStoreSpringBoot.repositories.ServicePackRepository;
 
 
 @Service
 public class ServicesPackServices {
 	
-	
 	@Autowired
 	ServicePackRepository serviceRepository;
 	@Autowired
-	ServicePackAndServicePackEntity servicePackAndServicePackEntity;
-
-	public List<ServicePackEntity> getAllServices(){
-		return serviceRepository.findAll(); 
+	StorageServices storageServices;
+	@Autowired
+	ServicePackMapper servicePackMapper;
+	public List<ServicePackResponseDTO> getAllServices() throws IOException{
+		List<ServicePackEntity> servicePackEntities = serviceRepository.findAll(); 
+		if(servicePackEntities.size() > 0) {
+			List<ServicePackResponseDTO> serviceResponseDTOs = new ArrayList<ServicePackResponseDTO>();
+			ServicePackResponseDTO serviceResponseDTO;
+			for(ServicePackEntity servicePackEntity:servicePackEntities) {
+				serviceResponseDTO = servicePackMapper.toServicePackResponseDTO(servicePackEntity);
+				if(servicePackEntity.getThumbnail() != null) {
+					byte[] thumbnailByte = storageServices.convertFileToByte(servicePackEntity.getThumbnail());
+					serviceResponseDTO.setThumbnailByte(thumbnailByte);
+				}
+				serviceResponseDTOs.add(serviceResponseDTO);
+			}
+			return serviceResponseDTOs;
+		}else
+			return null;
 	}
 
-	public ServicePackEntity getServicesByID(long id){
-		return serviceRepository.findById(id).orElse(null);
+	public ServicePackResponseDTO getServicesByID(long id) throws IOException{
+		ServicePackEntity servicePackEntity =  serviceRepository.findById(id).orElse(null);
+		if(servicePackEntity != null) {
+			ServicePackResponseDTO 	serviceResponseDTO = servicePackMapper.toServicePackResponseDTO(servicePackEntity);
+			if(servicePackEntity.getThumbnail() != null) {
+				byte[] thumbnailByte = storageServices.convertFileToByte(servicePackEntity.getThumbnail());
+				serviceResponseDTO.setThumbnailByte(thumbnailByte);
+			}
+			return serviceResponseDTO;
+		}else 
+			return null;
 	}
-	@Transactional
-	public ServicePackEntity addNewService(ServicePack service){
-		ServicePackEntity serviceEntity = servicePackAndServicePackEntity.convertToServicePackEntity(service);
-		serviceEntity.setStatus(0);
-		return serviceRepository.save(serviceEntity);
+
+	public ServicePackEntity addNewService(ServicePackEntity service, MultipartFile file) throws IOException{
+		if(file != null) {
+			String path = storageServices.saveFile(file);
+			service.setThumbnail(path);
+		}
+		service.setStatus(0);
+		return serviceRepository.save(service);
 	}
-	@Transactional
-	public ServicePackEntity updateService(long id, ServicePack service){
-		ServicePackEntity serviceEntity =  servicePackAndServicePackEntity.convertToServicePackEntity(service);
-		serviceEntity.setId(id);
-		return serviceRepository.save(serviceEntity);
+
+	public ServicePackEntity updateService(long id, ServicePackEntity service, MultipartFile file) throws IOException{
+		if(file != null) {
+			String path = storageServices.saveFile(file);
+			service.setThumbnail(path);
+		}
+		service.setId(id);
+		return serviceRepository.save(service);
 	}
-	@Transactional
+
 	public ServicePackEntity deleteService(long id){
-		ServicePackEntity serviceEntity = getServicesByID(id);
+		ServicePackEntity serviceEntity = serviceRepository.findById(id).get();
 		serviceEntity.setStatus(1);
 		return serviceRepository.save(serviceEntity);
 	}

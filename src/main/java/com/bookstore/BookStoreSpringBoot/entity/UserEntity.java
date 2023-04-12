@@ -31,6 +31,9 @@ public class UserEntity {
 	private int role;
 	@Column
 	private int status;
+	@OneToOne
+	@JoinColumn(name="store_id", referencedColumnName = "id")
+	private StoreEntity storeEntity;
 	@OneToOne(mappedBy="userEntity", cascade = CascadeType.ALL)
 	@OneToMany(mappedBy="userEntity", cascade = CascadeType.ALL)
 	public long getId() {
@@ -108,21 +111,12 @@ public class UserEntity {
 	public UserEntity() {
 		super();
 	}
-	
-	public UserEntity(long id, String fullName, String email, String phone, String password, String gender, String address,
-			Date createDate, Date updateDate, String avatar, int role, int status) {
-		super();
-		this.id = id;
-		this.fullName = fullName;
-		this.email = email;
-		this.phone = phone;
-		this.password = password;
-		this.gender = gender;
-		this.address = address;
-		this.createDate = createDate;
-		this.updateDate = updateDate;
-		this.avatar = avatar;
-		this.role = role;
-		this.status = status;
+	public StoreEntity getStoreEntity() {
+		return storeEntity;
 	}
+	public void setStoreEntity(StoreEntity storeEntity) {
+		this.storeEntity = storeEntity;
+	}
+	
+
 }

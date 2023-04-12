@@ -9,10 +9,10 @@ public class ReviewEntity {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	@ManyToOne
-	@JoinColumn(referencedColumnName = "id", name="userid")
+	@JoinColumn(referencedColumnName = "id", name="user_id")
 	private UserEntity userEntity;
 	@ManyToOne
-	@JoinColumn(referencedColumnName = "id", name="bookid")
+	@JoinColumn(referencedColumnName = "id", name="book_id")
 	private BookEntity bookEntity;
 	@Column
 	private int star;

@@ -62,17 +62,12 @@ public class EmailProvider {
 			return null;
 		}
 	};
-	public boolean sendEmail(String emailTo, String subject, String body) {
-		try {
-			SimpleMailMessage message = new SimpleMailMessage();
-			message.setTo(emailTo);
-			message.setSubject(subject);
-			message.setText(body);
-			mailSender.send(message);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
+	public void sendEmail(String emailTo, String subject, String body) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(emailTo);
+		message.setSubject(subject);
+		message.setText(body);
+		mailSender.send(message);
 		
 	}
 }

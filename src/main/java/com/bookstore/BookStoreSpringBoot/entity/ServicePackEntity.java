@@ -12,9 +12,9 @@ public class ServicePackEntity {
 	private String name;
 	@Column
 	private double price; 
-	@Column
+	@Column(name="quantity_product")
 	private int quantityProduct;
-	@Column
+	@Column(name="expiration_date")
 	private int expirationDate; 
 	@Column
 	private String thumbnail;	

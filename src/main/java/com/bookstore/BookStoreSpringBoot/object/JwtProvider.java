@@ -9,7 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtProvider {
-	 private final String secret = "mySecretKey"; // secret key bí mật để tạo và xác thực JWT
+	 private final String secret = "ABCDEFGHFIJKLMNOPQRSTUVXYZ0123456789ABCDEFGHFIJKLMNOPQRSTUVXYZ0123456789BookStoreSpringBoot"; // secret key bí mật để tạo và xác thực JWT
 
 	    private final long validityInMilliseconds = 3600000; // thời gian hết hạn của JWT (1 giờ)
 

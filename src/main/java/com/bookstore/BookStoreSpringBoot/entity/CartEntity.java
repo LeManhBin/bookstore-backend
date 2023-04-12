@@ -14,6 +14,15 @@ public class CartEntity {
 	@JoinColumn(name="book_id", referencedColumnName = "id")
 	private BookEntity bookEntity;
 	private int amount;
+	private int status;
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	public CartEntity() {
 		super();
 	}

@@ -1,7 +1,10 @@
 package com.bookstore.BookStoreSpringBoot.entity;
 
+
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -22,6 +25,7 @@ public class BookEntity {
 	@ManyToOne
 	@JoinColumn(name="promotion_id", referencedColumnName = "id")
 	private PromotionEntity promotionEntity;
+	@Column(name="publishing_year")
 	private int publishingYear;
 	@ManyToOne
 	@JoinColumn(name="store_id", referencedColumnName = "id")
@@ -31,9 +35,9 @@ public class BookEntity {
 	private int length;
 	private int width;
 	private int height;
-	private float weight;
+	private int weight;
 	private int quantity;
-	private float price;
+	private int price;
 	@Column(name="quantity_sold")
 	private int quantitySold;
 	@Column(name="create_date")
@@ -48,7 +52,7 @@ public class BookEntity {
         joinColumns = { @JoinColumn(name = "book_id") },
         inverseJoinColumns = { @JoinColumn(name = "tag_id") }
     )
-    private Set<TagEntity> tags = new HashSet<TagEntity>();
+    private List<TagEntity> tags = new ArrayList<TagEntity>();
     @OneToMany(mappedBy = "bookEntity")
     
 	public void setId(long id) {
@@ -133,7 +137,7 @@ public class BookEntity {
 	public float getWeight() {
 		return weight;
 	}
-	public void setWeight(float weight) {
+	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 	public int getQuantity() {
@@ -142,10 +146,10 @@ public class BookEntity {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public float getPrice() {
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(float price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	public int getQuantitySold() {
@@ -179,10 +183,11 @@ public class BookEntity {
 		this.description = description;
 	}
 	
-	public Set<TagEntity> getTags() {
+
+	public List<TagEntity> getTags() {
 		return tags;
 	}
-	public void setTags(Set<TagEntity> tags) {
+	public void setTags(List<TagEntity> tags) {
 		this.tags = tags;
 	}
 	public BookEntity() {

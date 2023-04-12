@@ -1,11 +1,12 @@
 package com.bookstore.BookStoreSpringBoot.entity;
 
 import java.sql.Date;
+import java.util.List;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="Order")
+@Table(name="Orders")
 public class OrderEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +23,21 @@ public class OrderEntity {
 	private String phone;
 	@Column
 	private String address;
-	@Column
+	@Column(name="create_date")
 	private Date createDate;
 	@Column
 	private String note;
 	@Column
 	private int status;
-	@OneToMany(mappedBy="orderEntity")
+	@Column
+	private int payment;
+
+	public int getPayment() {
+		return payment;
+	}
+	public void setPayment(int payment) {
+		this.payment = payment;
+	}
 	public long getId() {
 		return id;
 	}
@@ -86,4 +95,11 @@ public class OrderEntity {
 	public OrderEntity() {
 		super();
 	}
+	@Override
+	public String toString() {
+		return "OrderEntity [id=" + id + ", userEntity=" + userEntity + ", storeEntity=" + storeEntity + ", name="
+				+ name + ", phone=" + phone + ", address=" + address + ", createDate=" + createDate + ", note=" + note
+				+ ", status=" + status + ", payment=" + payment + "]";
+	}
+	
 }

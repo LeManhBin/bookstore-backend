@@ -31,7 +31,7 @@ public class StoreEntity {
 	@Column
 	private int status;
 	@OneToMany(mappedBy="storeEntity")
-	
+	@OneToOne(mappedBy="storeEntity", cascade = CascadeType.ALL)
 	public long getId() {
 		return id;
 	}
@@ -47,7 +47,7 @@ public class StoreEntity {
 		return user;
 	}
 
-
+	
 	public void setUser(UserEntity user) {
 		this.user = user;
 	}

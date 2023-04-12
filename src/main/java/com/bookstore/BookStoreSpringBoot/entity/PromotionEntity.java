@@ -14,6 +14,8 @@ public class PromotionEntity {
 	private String name;
 	@Column
 	private String body;
+	@Column
+	private int discount;
 	@Column(name="start_date")
 	private Date startDate;
 	@Column(name="end_date")
@@ -23,7 +25,7 @@ public class PromotionEntity {
 	@Column(name="update_date")
 	private Date updateDate;
 	@ManyToOne
-	@JoinColumn(name="storeId", referencedColumnName = "id")
+	@JoinColumn(name="store_id", referencedColumnName = "id")
 	private StoreEntity storeEntity;
 	@Column
 	private int status;
@@ -45,6 +47,7 @@ public class PromotionEntity {
 	public String getBody() {
 		return body;
 	}
+	
 	public void setBody(String body) {
 		this.body = body;
 	}
@@ -83,6 +86,13 @@ public class PromotionEntity {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	
+	public int getDiscount() {
+		return discount;
+	}
+	public void setDiscount(int discount) {
+		this.discount = discount;
 	}
 	@Override
 	public String toString() {
