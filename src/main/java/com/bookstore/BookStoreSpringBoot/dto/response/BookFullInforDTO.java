@@ -3,6 +3,9 @@ package com.bookstore.BookStoreSpringBoot.dto.response;
 import java.util.Date;
 import java.util.List;
 
+
+import lombok.Data;
+@Data
 public class BookFullInforDTO {
 	private int id;
 	private String name;
@@ -12,6 +15,7 @@ public class BookFullInforDTO {
 	private String publishing;
 	private int publishingYear;
 	private StoreBasicInforDTO store;
+	private int promotionId;
 	private int discount;
 	private int pageNumber;
 	private int length;
@@ -25,149 +29,7 @@ public class BookFullInforDTO {
 	private Date updateDate;
 	private String description;
 	private int status;
-	private List<byte[]> images;
+	private  List<String> images;
 	private List<TagResponse> tags;
-	
- 	public List<TagResponse> getTags() {
-		return tags;
-	}
-	public void setTags(List<TagResponse> tags) {
-		this.tags = tags;
-	}
-	public BookFullInforDTO() {
-		super();
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	public String getCategory() {
-		return category;
-	}
-	public void setCategory(String category) {
-		this.category = category;
-	}
-	public String getPublishing() {
-		return publishing;
-	}
-	public void setPublishing(String publishing) {
-		this.publishing = publishing;
-	}
-	public int getPublishingYear() {
-		return publishingYear;
-	}
-	public void setPublishingYear(int publishingYear) {
-		this.publishingYear = publishingYear;
-	}
-	public StoreBasicInforDTO getStore() {
-		return store;
-	}
-	public void setStore(StoreBasicInforDTO store) {
-		this.store = store;
-	}
-	public int getPageNumber() {
-		return pageNumber;
-	}
-	public void setPageNumber(int pageNumber) {
-		this.pageNumber = pageNumber;
-	}
-	public int getLength() {
-		return length;
-	}
-	public void setLength(int length) {
-		this.length = length;
-	}
-	public int getWidth() {
-		return width;
-	}
-	public void setWidth(int width) {
-		this.width = width;
-	}
-	public int getHeight() {
-		return height;
-	}
-	public void setHeight(int height) {
-		this.height = height;
-	}
-	public int getWeight() {
-		return weight;
-	}
-	public void setWeight(int weight) {
-		this.weight = weight;
-	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	public int getQuantitySold() {
-		return quantitySold;
-	}
-	public void setQuantitySold(int quantitySold) {
-		this.quantitySold = quantitySold;
-	}
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	public List<byte[]> getImages() {
-		return images;
-	}
-	public void setImages(List<byte[]> images) {
-		this.images = images;
-	}
-	public int getDiscount() {
-		return discount;
-	}
-	public void setDiscount(int discount) {
-		this.discount = discount;
-	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	public long getCategoryId() {
-		return categoryId;
-	}
-	public void setCategoryId(long categoryId) {
-		this.categoryId = categoryId;
-	}
 	
 }

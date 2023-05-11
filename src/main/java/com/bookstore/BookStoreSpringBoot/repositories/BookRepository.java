@@ -42,4 +42,12 @@ public interface BookRepository extends JpaRepository<BookEntity, Long>{
 	List<BookEntity> findBooksByStoreEntityIdAndDateNotBetween(@Param("storeId") long storeId,@Param("startDate") Date startDate,  @Param("endDate") Date endDate);
 	@Query("SELECT b FROM BookEntity b WHERE b.storeEntity.id=:storeId AND (b.promotionEntity IS NULL or b.promotionEntity.id=:promotionId) AND b.status=0")
 	List<BookEntity> findBookeByStoreEntityIdAndPromotionId(@Param("storeId") long storeId, @Param("promotionId") long promotionId);
+	
+	List<BookEntity> findByPromotionEntityId(long id);
+	
+	@Query("SELECT COUNT(b) FROM BookEntity b WHERE b.status = :status")
+    long countByStatus(@Param("status") int status);
+	
+	 @Query("SELECT SUM(b.quantitySold) FROM BookEntity b")
+    long sumQuantitySold();
 }

@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.bookstore.BookStoreSpringBoot.dto.response.CartResponseDTO;
 import com.bookstore.BookStoreSpringBoot.entity.CartEntity;
 import com.bookstore.BookStoreSpringBoot.entity.StoreEntity;
 

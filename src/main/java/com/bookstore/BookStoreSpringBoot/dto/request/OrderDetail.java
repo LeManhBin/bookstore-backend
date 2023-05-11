@@ -1,5 +1,8 @@
 package com.bookstore.BookStoreSpringBoot.dto.request;
 
+import lombok.Data;
+
+@Data
 public class OrderDetail {
 	private long id;
 	private long orderid;
@@ -7,44 +10,5 @@ public class OrderDetail {
 	private int amount;
 	private int price;
 	private int discount;
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public long getOrderid() {
-		return orderid;
-	}
-	public void setOrderid(long orderid) {
-		this.orderid = orderid;
-	}
-	public long getBookid() {
-		return bookid;
-	}
-	public void setBookid(long bookid) {
-		this.bookid = bookid;
-	}
-	public int getAmount() {
-		return amount;
-	}
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	public int getDisscount() {
-		return discount;
-	}
-	public void setDisscount(int discount) {
-		this.discount = discount;
-	}
-	public OrderDetail() {
-		super();
-	}
-	
+
 }

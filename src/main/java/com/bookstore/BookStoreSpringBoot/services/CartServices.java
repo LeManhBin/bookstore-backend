@@ -24,27 +24,18 @@ public class CartServices {
 	CartMapper cartMapper;
 	@Autowired
 	StoreMapper storeMapper;
-	@Autowired
-	StorageServices storageServices;
 	public List<CartResponseDTO> getAllCartDetailByUserId(long userid) throws IOException{
+		//Tìm kiếm tất cả các cửa hàng có trong giỏ hàng
 		List<StoreEntity> storeIncart = cartRepository.getAllStoreInCart(userid);
 		if(storeIncart.size() > 0) {
+			//Sắp xếp các sản phẩm theo cửa hàng
 			List<CartResponseDTO> cartResponseDTOs  = new ArrayList<CartResponseDTO>();
-			CartDetailDTO cartDetailDTO;
 			StoreBasicInforDTO storeBasicInfor;
 			List<CartEntity> cartEntities;
 			for(StoreEntity storeEntity:storeIncart) {
 				storeBasicInfor = storeMapper.toStoreBasicInforDTO(storeEntity);
 				cartEntities = cartRepository.getAllCartDetailByStoreIdAndUserId(storeEntity.getId(), userid);
-				List<CartDetailDTO>  cartDetailDTOs = new ArrayList<CartDetailDTO>();
-				for(CartEntity cartEntity:cartEntities) {
-					cartDetailDTO =  cartMapper.toCartDetailDTO(cartEntity);
-					if(cartDetailDTO.getImage() != null) {
-						List<byte[]> bookImage = storageServices.convertMultiFileToBytes(cartDetailDTO.getImage());
-						cartDetailDTO.setImagebyte(bookImage.get(0));
-					}
-					cartDetailDTOs.add(cartDetailDTO);
-				}
+				List<CartDetailDTO>  cartDetailDTOs = cartMapper.toCartDetailDTOs(cartEntities);
 				cartResponseDTOs.add(new CartResponseDTO(storeBasicInfor, cartDetailDTOs));
 			}
 			return cartResponseDTOs;
@@ -104,22 +95,13 @@ public class CartServices {
 		List<StoreEntity> storeInCartSelected = cartRepository.getAllStoreInCartSelected(userId, 1);
 		if(storeInCartSelected.size() > 0) {
 			List<CartResponseDTO> cartResponseDTOs  = new ArrayList<CartResponseDTO>();
-			CartDetailDTO cartDetailDTO;
 			StoreBasicInforDTO storeBasicInfor;
 			List<CartEntity> cartEntities;
 			for(StoreEntity storeEntity:storeInCartSelected) {
 				cartEntities = cartRepository.findByStoreIdAndUserIdAndStatus(storeEntity.getId(), userId, 1);
 				if(cartEntities.size() > 0) {
 					storeBasicInfor = storeMapper.toStoreBasicInforDTO(storeEntity);
-					List<CartDetailDTO>  cartDetailDTOs = new ArrayList<CartDetailDTO>();
-					for(CartEntity cartEntity:cartEntities) {
-						cartDetailDTO =  cartMapper.toCartDetailDTO(cartEntity);
-						if(cartDetailDTO.getImage() != null) {
-							List<byte[]> bookImage = storageServices.convertMultiFileToBytes(cartDetailDTO.getImage());
-							cartDetailDTO.setImagebyte(bookImage.get(0));
-						}
-						cartDetailDTOs.add(cartDetailDTO);
-					}
+					List<CartDetailDTO>  cartDetailDTOs = cartMapper.toCartDetailDTOs(cartEntities);
 					cartResponseDTOs.add(new CartResponseDTO(storeBasicInfor, cartDetailDTOs));
 				}
 			}

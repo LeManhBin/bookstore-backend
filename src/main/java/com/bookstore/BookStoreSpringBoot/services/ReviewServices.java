@@ -30,8 +30,6 @@ public class ReviewServices {
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
-	StorageServices storageServices;
-	@Autowired
 	ReviewMapper reviewMapper;
 
 	
@@ -51,16 +49,9 @@ public class ReviewServices {
 
 	public List<ReviewResponseDTO> getAllReviewByBookId(long id) throws IOException {
 		List<ReviewEntity> reviewEntities = reviewRepository.findByBookEntityId(id);
+		System.out.println("vao serrice");
 		if(reviewEntities.size() > 0) {
-			List<ReviewResponseDTO> reviewResponses = new ArrayList<>();
-			ReviewResponseDTO reviewResponse;
-			for(ReviewEntity reviewEntity:reviewEntities) {
-				reviewResponse = reviewMapper.toReviewResponseDTO(reviewEntity);
-				if(reviewResponse.getAvatar() != null) {
-					reviewResponse.setImage(storageServices.convertFileToByte(reviewResponse.getAvatar()));
-				}
-				reviewResponses.add(reviewResponse);
-			}
+			List<ReviewResponseDTO> reviewResponses = reviewMapper.toReviewResponseDTOs(reviewEntities);
 			return reviewResponses;
 		}else
 			return null;

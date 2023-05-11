@@ -16,27 +16,16 @@ import com.bookstore.BookStoreSpringBoot.repositories.ServicePackRepository;
 
 @Service
 public class ServicesPackServices {
-	
+	@Autowired
+ 	ImageStorageService storageServices;
 	@Autowired
 	ServicePackRepository serviceRepository;
-	@Autowired
-	StorageServices storageServices;
 	@Autowired
 	ServicePackMapper servicePackMapper;
 	public List<ServicePackResponseDTO> getAllServices() throws IOException{
 		List<ServicePackEntity> servicePackEntities = serviceRepository.findAll(); 
 		if(servicePackEntities.size() > 0) {
-			List<ServicePackResponseDTO> serviceResponseDTOs = new ArrayList<ServicePackResponseDTO>();
-			ServicePackResponseDTO serviceResponseDTO;
-			for(ServicePackEntity servicePackEntity:servicePackEntities) {
-				serviceResponseDTO = servicePackMapper.toServicePackResponseDTO(servicePackEntity);
-				if(servicePackEntity.getThumbnail() != null) {
-					byte[] thumbnailByte = storageServices.convertFileToByte(servicePackEntity.getThumbnail());
-					serviceResponseDTO.setThumbnailByte(thumbnailByte);
-				}
-				serviceResponseDTOs.add(serviceResponseDTO);
-			}
-			return serviceResponseDTOs;
+			return servicePackMapper.toServicePackResponseDTOs(servicePackEntities);
 		}else
 			return null;
 	}
@@ -44,29 +33,21 @@ public class ServicesPackServices {
 	public ServicePackResponseDTO getServicesByID(long id) throws IOException{
 		ServicePackEntity servicePackEntity =  serviceRepository.findById(id).orElse(null);
 		if(servicePackEntity != null) {
-			ServicePackResponseDTO 	serviceResponseDTO = servicePackMapper.toServicePackResponseDTO(servicePackEntity);
-			if(servicePackEntity.getThumbnail() != null) {
-				byte[] thumbnailByte = storageServices.convertFileToByte(servicePackEntity.getThumbnail());
-				serviceResponseDTO.setThumbnailByte(thumbnailByte);
-			}
-			return serviceResponseDTO;
+			return servicePackMapper.toServicePackResponseDTO(servicePackEntity);
 		}else 
 			return null;
 	}
 
-	public ServicePackEntity addNewService(ServicePackEntity service, MultipartFile file) throws IOException{
-		if(file != null) {
-			String path = storageServices.saveFile(file);
-			service.setThumbnail(path);
-		}
+	public ServicePackEntity addNewService(ServicePackEntity service, MultipartFile file) {
+		if(file != null)
+			service.setThumbnail(storageServices.storeFile(file));
 		service.setStatus(0);
 		return serviceRepository.save(service);
 	}
 
-	public ServicePackEntity updateService(long id, ServicePackEntity service, MultipartFile file) throws IOException{
+	public ServicePackEntity updateService(long id, ServicePackEntity service, MultipartFile file) {
 		if(file != null) {
-			String path = storageServices.saveFile(file);
-			service.setThumbnail(path);
+			service.setThumbnail(storageServices.storeFile(file));
 		}
 		service.setId(id);
 		return serviceRepository.save(service);

@@ -68,14 +68,17 @@ public class PromotionServices {
 		return promotionEntity;
 	}
 
-	public PromotionEntity deletePromotion(long id){
-		promotionRepository.deleteById(id);
-		return getPromotionById(id);
-	}
-
 	public PromotionEntity updatePromotionStatus(long id, int status){
 		PromotionEntity promotionEntity = getPromotionById(id);
 		promotionEntity.setStatus(status);
+		if(status == 2) {
+			List<BookEntity> books = bookRepository.findByPromotionEntityId(id);
+			for(BookEntity book:books) {
+				book.setPromotionEntity(null);
+				bookRepository.save(book);
+			}
+			
+		}
 		return promotionRepository.save(promotionEntity);
 	}
 }

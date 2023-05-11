@@ -1,5 +1,7 @@
 package com.bookstore.BookStoreSpringBoot.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -15,4 +17,6 @@ public interface ServicePackMapper {
 	ServicePackEntity toServicePackEntity(ServicePackRequestDTO servicePack);
 	
 	ServicePackResponseDTO toServicePackResponseDTO(ServicePackEntity servicePackEntity);
+
+	List<ServicePackResponseDTO> toServicePackResponseDTOs(List<ServicePackEntity> servicePackEntities);
 }

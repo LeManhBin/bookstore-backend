@@ -31,8 +31,8 @@ public class ContactServices {
 		contact.setStatus(0);
 		return contactRepository.save(contact);
 	}
-	public ContactEntity deleteContact(long id){
+	public void deleteContact(long id){
 		 contactRepository.deleteById(id);
-		 return getContactByID(id);
+		 
 	}
 }

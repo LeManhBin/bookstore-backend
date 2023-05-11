@@ -19,6 +19,7 @@ public interface OrderMapper {
     OrderResponseDTO toOrderResponseDTO(OrderEntity orderEntity);
 	
 	OrderResponseForStore toOrderResponseForStore(OrderEntity orderEntity, List<OrderDetailResponseDTO> orderDetails);
+	
 	@Mapping(target = "store", ignore =  true)
 	List<OrderResponseForStore> toOrderResponseForStore(List<OrderEntity> orderEntity);
 }

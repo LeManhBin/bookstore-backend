@@ -12,19 +12,13 @@ import org.springframework.stereotype.Service;
 import com.bookstore.BookStoreSpringBoot.dto.request.OrderRecipient;
 import com.bookstore.BookStoreSpringBoot.dto.request.OrderRequestDTO;
 import com.bookstore.BookStoreSpringBoot.dto.request.OrderStoreDTO;
-import com.bookstore.BookStoreSpringBoot.dto.request.ReviewRequestDTO;
-import com.bookstore.BookStoreSpringBoot.dto.response.CartDetailDTO;
-import com.bookstore.BookStoreSpringBoot.dto.response.CartResponseDTO;
 import com.bookstore.BookStoreSpringBoot.dto.response.OrderDetailResponseDTO;
 import com.bookstore.BookStoreSpringBoot.dto.response.OrderResponseDTO;
 import com.bookstore.BookStoreSpringBoot.dto.response.OrderResponseForStore;
-import com.bookstore.BookStoreSpringBoot.dto.response.StoreBasicInforDTO;
 import com.bookstore.BookStoreSpringBoot.entity.BookEntity;
 import com.bookstore.BookStoreSpringBoot.entity.CartEntity;
 import com.bookstore.BookStoreSpringBoot.entity.OrderDetailEntity;
 import com.bookstore.BookStoreSpringBoot.entity.OrderEntity;
-import com.bookstore.BookStoreSpringBoot.entity.ReviewEntity;
-import com.bookstore.BookStoreSpringBoot.entity.UserEntity;
 import com.bookstore.BookStoreSpringBoot.mapper.OrderDetailMapper;
 import com.bookstore.BookStoreSpringBoot.mapper.OrderMapper;
 import com.bookstore.BookStoreSpringBoot.mapper.StoreMapper;
@@ -35,20 +29,6 @@ import com.bookstore.BookStoreSpringBoot.repositories.OrderRepository;
 import com.bookstore.BookStoreSpringBoot.repositories.StoreRepository;
 import com.bookstore.BookStoreSpringBoot.repositories.UserRepository;
 
-/**
- * @author Acer
- *
- */
-/**
- * @param orderEntities
- * @return
- * @throws IOException
- */
-/**
- * @param orderEntities
- * @return
- * @throws IOException
- */
 @Service
 public class OrderServices {
 	@Autowired
@@ -68,8 +48,6 @@ public class OrderServices {
 	@Autowired
 	BookRepository bookRepository;
 	@Autowired
-	StorageServices storageServices;
-	@Autowired
 	OrderDetailRepository orderDetailRepositoy;
 	public List<OrderResponseForStore> getOrdersByStoreId(long storeId) throws IOException {
 		List<OrderEntity> orderEntities =  orderRepository.findByStoreEntityId(storeId);
@@ -82,36 +60,35 @@ public class OrderServices {
 	public OrderResponseForStore getOrdersById(long id) throws IOException {
 		OrderEntity orderEntity =  orderRepository.findById(id).orElse(null);
 		if(orderEntity != null) {
+			//Tìm kiếm tất cả các chi tiết sản đơn hàng của đơn hàng
 			List<OrderDetailEntity> orderDetailEntities = orderDetailRepositoy.findByOrderEntityId(orderEntity.getId());
+			//Mapping các dữ liệu chi tiết đơn hàng cần thiết
 			List<OrderDetailResponseDTO> orderDetailResponses = orderDetailMapper.toOrderDetailResponseDTO(orderDetailEntities);
-			for(int i = 0; i <  orderDetailResponses.size(); i++) {
-				if(orderDetailResponses.get(i).getImage() != null) {
-					byte[] imageByte = storageServices.convertMultiFileToBytes(orderDetailResponses.get(i).getImage()).get(0);
-					orderDetailResponses.get(i).setImagebyte(imageByte);
-				}
-			}
+			//Tạo một đối tượng gồm đơn hàng và các chi tiết đơn hàng nằm trong đơn hàng
 			OrderResponseForStore orderResponseForStore = orderMapper.toOrderResponseForStore(orderEntity, orderDetailResponses);
-			orderResponseForStore.setOrderDetails(orderDetailResponses);
 			return orderResponseForStore;
 		}else
 			return null;
 	}
 	
-	/*Find all store in books
-	 * with one store finded, create one order
-	 * width one order created, create orderdetail by book selected in cart
-	*/
 	public void addNewOrder(OrderRequestDTO orderRequest) {
+		//Tìm các cửa hàng trong các sản phẩm được chọn
 		List<OrderStoreDTO> orderStores = orderRequest.getStores();
 		OrderRecipient orderRecipient = orderRequest.getRecipient();
+		//Với mỗi cửa hàng thì tạo một đơn hàng
 		for (OrderStoreDTO orderStore : orderStores) {
 			OrderEntity orderEntity = createOrderEntity(orderRequest, orderStore, orderRecipient);
-			orderRepository.save(orderEntity);
-			for (Long id : orderStore.getCartIds()) {
+			long totalMoney = 0L;
+			List<OrderDetailEntity> orderDetailEntities = new ArrayList<>();
+			for (Long id : orderStore.getCartIds()){
 				OrderDetailEntity orderDetailEntity = createOrderDetail(orderEntity, id);
-				orderDetailRepositoy.save(orderDetailEntity);
+				orderDetailEntity.setOrderEntity(orderEntity);
+				orderDetailEntities.add(orderDetailEntity);
 				cartRepository.deleteById(id);
 			}
+			orderEntity.setTotalMoney(orderStore.getTotalMoney());
+			orderRepository.save(orderEntity);
+			orderDetailRepositoy.saveAll(orderDetailEntities);
 		}
 	}
 
@@ -130,7 +107,6 @@ public class OrderServices {
 	}
 
 	private OrderDetailEntity createOrderDetail(OrderEntity orderEntity, long id) {
-
 		CartEntity cartEntity = cartRepository.findById(id).get();
 		OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
 		BookEntity bookEntity = bookRepository.findById(cartEntity.getBookEntity().getId()).get();
@@ -168,10 +144,6 @@ public class OrderServices {
 				List<OrderDetailResponseDTO> orderDetailResponses = new ArrayList<OrderDetailResponseDTO>();
 				for(OrderDetailEntity orderDetail:orderDetailEntities) {
 					OrderDetailResponseDTO orderDetailResponse = orderDetailMapper.toOrderDetailResponseDTO(orderDetail);
-					if(orderDetail.getBookEntity().getImage() != null) {
-						byte[] imageByte = storageServices.convertMultiFileToBytes(orderDetail.getBookEntity().getImage()).get(0);
-						orderDetailResponse.setImagebyte(imageByte);
-					}
 					orderDetailResponses.add(orderDetailResponse);
 				}
 				orderResponse.setOrderDetails(orderDetailResponses);
@@ -180,5 +152,4 @@ public class OrderServices {
 		}
 		return orderResponses;
 	}
-
 }
