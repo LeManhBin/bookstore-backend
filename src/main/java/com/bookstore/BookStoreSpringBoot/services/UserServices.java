@@ -124,8 +124,8 @@ public class UserServices {
 	public boolean updatePasword(long id, PasswordRequestDTO passwordRequestDTO){
 		UserEntity userEntity = userRepository.findById(id).orElse(null);
 		if(userEntity != null) {
-			if(passwordRequestDTO.getOldPassword().equals(userEntity.getPassword())) {
-				userEntity.setPassword(passwordRequestDTO.getNewPassword());
+			if(passwordEncoder.matches(passwordRequestDTO.getOldPassword(), userEntity.getPassword())) {
+				userEntity.setPassword(passwordEncoder.encode(passwordRequestDTO.getNewPassword()));
 				userRepository.save(userEntity);
 				return true;
 			}else {
