@@ -22,6 +22,7 @@ public class TagServices {
 	}
 	
 	public TagEntity addNewTag(TagEntity tagEntity){
+		tagEntity.setStatus(0);
 		return tagRepository.save(tagEntity);
 	}
 	
